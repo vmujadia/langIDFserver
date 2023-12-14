@@ -8,56 +8,20 @@ from typing import List, Optional
 import attr
 import ast
 
-from indicnlp import common
-from indicnlp import loader
-from indicnlp.tokenize import indic_tokenize  
-from indicnlp.tokenize import sentence_tokenize
-
-
-INDIC_NLP_RESOURCES="/home/vandan/shallow_parser/Completed/code/indic_nlp_resources/"
-common.set_resources_path(INDIC_NLP_RESOURCES)
-loader.load()
-
-filter_points=[]
-
-for char in codecs.open('out2.chars.txt.final'):
-    char = char.strip()
-    filter_points.append(char)
-
 
 VERSION = 5.0
-
-@attr.dataclass
-class shallow:
-    text: list
-    score: float = 1.0
-    code_version: str = VERSION
-    error: Optional[str] = None
-
-    def to_dict(self):
-        return attr.asdict(self)
-
-    def has_error(self):
-        return bool(self.error)
-
-def read_labels(_file):
-    labels = []
-    for line in codecs.open(_file):
-        line = line.strip()
-        labels.append(line)
-    return labels
 
 
 labels = ["as","bho","bn","en","gu","hi","ka","kn","ml","mni","mr","or","pa","ta","te","ur",'unk']
 
 def load_online_model():
-    model_path = '/home/vandan/shallow_parser/Completed/code/models/langidentify/'
+    model_path = 'langidentifyv1'
     return tf.saved_model.load(model_path)
 
 models = {}
 
 
-vocab_file = '/home/vandan/shallow_parser/Completed/code/models/langidentify/assets/vocab.txt'
+vocab_file = 'langidentifyv1/assets/vocab.txt'
 tokenizer = tokenization.FullTokenizer(vocab_file=vocab_file, do_lower_case=True, split_on_punc=False)
 
 processor_text_fn = tokenization.convert_to_unicode
@@ -80,9 +44,7 @@ class InputExample(object):
 
 
 def convert_single_example(ex_index, example, max_seq_length, tokenizer):
-    print ('here 2', example.text_a)
     tokens_a = tokenizer.tokenize(example.text_a)
-    print (tokens_a)
     tokens_b = None
     if example.text_b:
         tokens_b = tokenizer.tokenize(example.text_b)
@@ -160,8 +122,6 @@ def print_start_sentence(sent_count):
 def print_end_sentence():
     return '</Sentence>'
     
-r_list = read_labels('r_list.txt')
-
 
 def language_identify(text):
     org_text = text
@@ -172,24 +132,18 @@ def language_identify(text):
     text = " ".join(text.split())
 
     sentences = [text]
-    print ('here 1', text)
     output_list = []
     for sentence in sentences:
         p_all = _all(sentence)
         output_list.append(p_all)
-        #return shallow(text=str(output_list[0]))
-        return output_list[0]
+        return output_list[0], 100
 
     
     return send
 
 
-#text = 'কেন্দ্ৰীয় চৰকাৰে সোনকালেই কেন্দ্ৰীয় কৰ্মচাৰীসকলৰ সূতৰ ধন তেওঁলোকৰ পিএফ একাউণ্টলৈ স্থানান্তৰ কৰিব পাৰে।'
-#print (shallow_parse(text))
-
-
-#text = 'कल पुलिस ने सोनिया गांधी और राहुल गांधी के घरों को घेर लिया था।'
-#print (shallow_parse(text, 'hin'))
+text = 'कल पुलिस ने सोनिया गांधी और राहुल गांधी के घरों को घेर लिया था।'
+print (language_identify(text))
 
 
 

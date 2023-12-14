@@ -2,7 +2,9 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+langidentifyv1
+langidentifyv1.zip
+myvenv/
 # C extensions
 *.so
 
