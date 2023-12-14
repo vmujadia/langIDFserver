@@ -48,7 +48,7 @@ JSON INPUT (ULCA) :
 }
 
 ```
-
+```
 JSON OUTPUT (ULCA) :
 
 {
