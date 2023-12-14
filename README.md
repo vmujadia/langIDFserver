@@ -1,4 +1,4 @@
-# langIDFserver
+# langIDFserver (cc by 4.0)
 langIDFserver
 
 # Details
