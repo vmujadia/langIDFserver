@@ -77,6 +77,6 @@ JSON OUTPUT (ULCA) :
 ```
 
 
-## Owner/Contect
+## Owner/Contact
 1. Vandan Mujadia (vandan.mu@research.iiit.ac.in)
 2. Dipti M Sharma (dipti@iiit.ac.in)
